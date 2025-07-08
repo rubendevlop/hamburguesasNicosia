@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pedidos - Admin</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedidos en tiempo real</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>🧾 Pedidos en tiempo real</h1>
   <ul id="lista-pedidos"></ul>
 
   <script type="module">
-    import { db, collection, onSnapshot } from "./firebase.js";
+    import { db, collection, onSnapshot } from './firebase.js';
 
-    const lista = document.getElementById("lista-pedidos");
+    const lista = document.getElementById('lista-pedidos');
 
     onSnapshot(collection(db, "pedidos"), (snapshot) => {
       lista.innerHTML = "";
