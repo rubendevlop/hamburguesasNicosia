@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pedir - Hamburguesas Nicosia</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>🍔 Hamburguesas Nicosia</h1>
+  <p id="mesa-info"></p>
+
+  <div class="productos">
+    <button onclick="agregarPedido('Clásica')">Clásica</button>
+    <button onclick="agregarPedido('Doble Nicosia')">Doble Nicosia</button>
+    <button onclick="agregarPedido('Veggie')">Veggie</button>
+  </div>
+
+  <script type="module">
+    import { db, collection, addDoc } from "./firebase.js";
+
+    const params = new URLSearchParams(location.search);
+    const mesa = params.get("mesa") || "Desconocida";
+    document.getElementById("mesa-info").textContent = `Mesa: ${mesa}`;
+
+    async function agregarPedido(producto) {
+      await addDoc(collection(db, "pedidos"), {
+        mesa,
+        producto,
+        hora: new Date().toLocaleTimeString()
+      });
+      alert(`Pedido enviado: ${producto}`);
+    }
+  </script>
+</body>
+</html>

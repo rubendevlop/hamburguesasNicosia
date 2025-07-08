@@ -1,41 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Burger Nicosia</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pedidos - Admin</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Burger Nicosia 🍔</h1>
-    <nav>
-      <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Menú</a></li>
-        <li><a href="#">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
+  <h1>🧾 Pedidos en tiempo real</h1>
+  <ul id="lista-pedidos"></ul>
 
-  <main>
-    <section class="producto">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSddjpE64jVcMqw9x270i2vfbklSHIt-LzP7w&s" alt="Hamburguesa clásica">
-      <h2>Hamburguesa Clásica</h2>
-      <p>Pan artesanal, carne 100%, cheddar y lechuga.</p>
-      <button>Comprar</button>
-    </section>
+  <script type="module">
+    import { db, collection, onSnapshot } from "./firebase.js";
 
-    <section class="producto">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLwkUFhYoeutfNm_gPWfvN8LHwBC-wj-Ow5Q&s" alt="Doble bacon">
-      <h2>Doble Bacon</h2>
-      <p>Doble carne, doble cheddar y bacon crocante.</p>
-      <button>Comprar</button>
-    </section>
-  </main>
+    const lista = document.getElementById("lista-pedidos");
 
-  <footer>
-    <p>&copy; 2025 Burger Nicosia</p>
-  </footer>
+    onSnapshot(collection(db, "pedidos"), (snapshot) => {
+      lista.innerHTML = "";
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const item = document.createElement("li");
+        item.textContent = `[${data.hora}] Mesa ${data.mesa}: ${data.producto}`;
+        lista.appendChild(item);
+      });
+    });
+  </script>
 </body>
 </html>
